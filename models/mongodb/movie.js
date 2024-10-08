@@ -1,5 +1,5 @@
 import { MongoClient, ObjectId, ServerApiVersion } from 'mongodb'
-import { MONGO_URI } from '../../config'
+import { MONGO_URI } from '../../config.js'
 
 // Create a MongoClient with a MongoClientOptions object to set the Stable API version
 const client = new MongoClient(MONGO_URI, {
