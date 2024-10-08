@@ -1,9 +1,8 @@
 import { MongoClient, ObjectId, ServerApiVersion } from 'mongodb'
-
-const uri = 'mongodb+srv://keiner28:1234@cluster0.itrnbsd.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0'
+import { MONGO_URI } from '../../config'
 
 // Create a MongoClient with a MongoClientOptions object to set the Stable API version
-const client = new MongoClient(uri, {
+const client = new MongoClient(MONGO_URI, {
   serverApi: {
     version: ServerApiVersion.v1,
     strict: true,
@@ -53,6 +52,7 @@ export class MovieModel {
     const db = await connect()
 
     const { insertedId } = await db.insertOne(input)
+    console.log(insertedId)
 
     return {
       id: insertedId,

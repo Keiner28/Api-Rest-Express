@@ -19,45 +19,50 @@
         }
     </style>
     <script type="module">
-        fetch( 'http://localhost:1234/movies' )
-            .then( response => response.json() )
-            .then( movies => {
+        fetch('http://localhost:1234/movies')
+            .then(response => response.json())
+            .then(movies => {
                 const html = movies
-                    .map( movie => {
+                    .map(movie => {
                         return `
-                    <article data-id="${movie.id}">
+                    <article data-id="${movie._id}">
                         <h2>${movie.title}</h2>
                         <img src="${movie.poster}" alt="${movie.title}">
+                        <p><b>Id:</b> ${movie._id}</p>
                         <p><b>Director:</b> ${movie.director}</p>
                         <p><b>Year:</b> ${movie.year}</p>
                         <p><b>Rating:</b> ${movie.rating}</p>
                         <button>Eliminar</button>
                     </article>
                 `
-                    } )
-                    .join( '' )
-                document.querySelector( 'main' ).innerHTML = html
+                    })
+                    .join('')
+                document.querySelector('main').innerHTML = html
 
-                document.addEventListener( 'click', e => {
-                    if ( e.target.matches( 'button' ) ) {
-                        const article = e.target.closest( 'article' )
+                document.addEventListener('click', e => {
+                    if (e.target.matches('button')) {
+                        const article = e.target.closest('article')
                         const id = article.dataset.id
-                        fetch( `http://localhost:1234/movies/${id}`, {
+                        fetch(`http://localhost:1234/movies/${id}`, {
                             method: 'DELETE'
-                        } )
-                            .then( response => {
-                                if ( response.ok ) {
+                        })
+                            .then(response => {
+                                if (response.ok) {
                                     article.remove()
+                                } else {
+                                    return response.json().then(error => {
+                                        console.error('Error:', error.message)
+                                    })
                                 }
-                            } )
+                            })
 
                     }
-                } )
-            } )
+                })
+            })
 
-            .catch( error => {
-                console.error( 'Error:', error )
-            } )
+            .catch(error => {
+                console.error('Error:', error)
+            })
     </script>
 </head>
 
@@ -66,3 +71,4 @@
 </body>
 
 </html>
+
